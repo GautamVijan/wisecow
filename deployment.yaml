@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: wisecow-deployment
 spec:
-  replicas: 3  # You can adjust the number of replicas as needed
+  replicas: 3 
   selector:
     matchLabels:
       app: wisecow
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: wisecow
-        image: bababund/wisecow:latest  # Update this with your actual container registry
+        image: bababund/wisecow:latest  
         ports:
         - containerPort: 4499
 
