@@ -11,7 +11,7 @@ jobs:
     - name: Start minikube
       uses: medyagh/setup-minikube@master
     - name: Try the cluster !
-      run: kubectl create deployment sample --image=example
+      run: kubectl create deployment example --image=example
     - name: Build image
       run: |
         export SHELL=/bin/bash
