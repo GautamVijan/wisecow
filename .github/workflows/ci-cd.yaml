@@ -24,9 +24,11 @@ jobs:
         docker build -t bababund/wisecow:latest .
         docker push bababund/wisecow:latest
 
-    - name: Deploy to Kubernetes
-      uses: appleboy/kubectl-action@master
-      with:
-        kube_config_data: ${{ secrets.KUBE_CONFIG_DATA }}
-        command: apply
-        args: -f deployment.yaml -f service.yaml
+    - name: Deploy to Minikube
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      run: |
+        echo "$KUBE_CONFIG_DATA" | base64 --decode > kubeconfig.yaml
+        export KUBECONFIG=$PWD/kubeconfig.yaml
+        kubectl apply -f deployment.yaml -f service.yaml
+
