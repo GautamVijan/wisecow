@@ -13,7 +13,7 @@ spec:
                 app: example
         spec:
             containers:
-                - name: example-api
+                - name: example
                   imagePullPolicy: Never
                   image: local/example:latest
                   resources:
