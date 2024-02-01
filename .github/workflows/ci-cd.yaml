@@ -10,23 +10,26 @@ jobs:
     - uses: actions/checkout@v2
     - name: Start minikube
       uses: medyagh/setup-minikube@master
-    - name: Try the cluster !
-      run: kubectl create deployment example --image=example
     - name: Build image
       run: |
         export SHELL=/bin/bash
         eval $(minikube -p minikube docker-env)
-        docker build -f ./Dockerfile -t local/example .
+        docker build -f ./Dockerfile -t local/wisecow .
         echo -n "verifying images:"
-        docker images        
+        docker images    
+        
+    - name: Try the cluster !
+      run: |
+        kubectl create deployment example --image=wisecow
+        kubectl get pods 
     - name: Deploy to minikube
       run:
         kubectl apply -f deployment.yaml -f service.yaml
     - name: Test service URLs
       run: |
         minikube service list
-        minikube service example --url
+        minikube service wisecow --url
         echo "------------------opening the service------------------"
-        curl $(minikube service example --url)        
+        curl $(minikube service wisecow --url)        
 
 

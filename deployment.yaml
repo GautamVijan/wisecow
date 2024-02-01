@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: example
+    name: wisecow
     namespace: default
 spec:
     selector:
         matchLabels:
-            app: example
+            app: wisecow
     replicas: 2
     template:
         metadata:
             labels:
-                app: example
+                app: wisecow
         spec:
             containers:
-                - name: example
-                  image: local/example:latest
+                - name: wisecow
+                  image: local/wisecow:latest
                   ports:
                       - containerPort: 4499
