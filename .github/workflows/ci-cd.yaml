@@ -10,8 +10,11 @@ jobs:
       - name: Build image
         run: docker build -t bababund/wisecow .  # Your Docker image name
 
-      - name: Push image
-        run: docker push bababund/wisecow
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push image with tag
+        run: docker push bababund/wisecow:${{ github.sha }}  # Push with commit SHA as tag
 
   deploy-to-minikube:
     runs-on: ubuntu-latest
@@ -21,6 +24,9 @@ jobs:
 
       - name: Install and start Minikube
         uses: actions/setup-minikube@v3
+        with:
+          # Optional version specification, adjust as needed
+          #version: v1.25.0
 
       - name: Set up kubectl for Minikube
         run: kubectl config set-cluster minikube
