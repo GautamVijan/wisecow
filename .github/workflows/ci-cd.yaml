@@ -32,6 +32,6 @@ jobs:
         run: kubectl apply -f deployment.yaml -f service.yaml
 
       - name: Verify application health (optional)
-        run: kubectl exec -it wisecow-0 -- sh -c "curl -I http://localhost:80/ | head"
+        run: kubectl exec -it wisecow -- sh -c "curl -I http://localhost:80/ | head"
 
 
