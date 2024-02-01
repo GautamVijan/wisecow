@@ -8,13 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build image
-        run: docker build -t bababund/wisecow .  # Your Docker image name
+        run: docker build -t bababund/wisecow:latest . 
 
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push image with tag
-        run: docker push bababund/wisecow:${{ github.sha }}  # Push with commit SHA as tag
+        run: docker push bababund/wisecow:latest 
 
   deploy-to-minikube:
     runs-on: ubuntu-latest
