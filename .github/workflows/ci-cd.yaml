@@ -1,29 +1,37 @@
-name: Build and Deploy to Minikube on PR
+name: Build, Push, and Deploy to Minikube
 
-on:
-  pull_request:
+on: [push]
 
 jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t bababund/wisecow:latest . 
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push image with tag
+        run: docker push bababund/wisecow:latest 
+
   deploy-to-minikube:
     runs-on: ubuntu-latest
+    needs: build-and-push
     steps:
       - uses: actions/checkout@v3
 
       - name: Install and start Minikube
-        uses: appleboy/minikube-runner@v0.15.0  # Replace with a working action
-
-      - name: Set up Docker for Minikube
-        run: |
-          export SHELL=/bin/bash
-          eval $(minikube -p minikube docker-env)
-          docker build -f ./Dockerfile -t local/wisecow .
+        uses: medyagh/setup-minikube@master
 
       - name: Set up kubectl for Minikube
         run: kubectl config set-cluster minikube
 
       - name: Apply Kubernetes manifests
-        run: kubectl apply -f deployment.yaml -f service.yaml  # Adjust paths if needed
+        run: kubectl apply -f deployment.yaml -f service.yaml
 
       - name: Verify application health (optional)
-        run: kubectl exec -it wisecow -- sh -c "curl -I http://localhost:80/ | head"  # Adjust command as needed
+        run: kubectl exec -it wisecow -- sh -c "curl -I http://localhost:80/ | head"
+
 
