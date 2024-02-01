@@ -14,7 +14,7 @@ jobs:
       run: |
         export SHELL=/bin/bash
         eval $(minikube -p minikube docker-env)
-        docker build -f ./Dockerfile -t local/wisecow .
+        docker build -f -t wisecow .
         echo -n "verifying images:"
         docker images    
         
@@ -23,8 +23,10 @@ jobs:
         kubectl create deployment example --image=wisecow
         kubectl get pods 
     - name: Deploy to minikube
-      run:
-        kubectl apply -f deployment.yaml -f service.yaml
+      run: |
+        kubectl apply -f deployment.yaml
+        kubectl apply -f service.yaml
+        kubectl get svc wisecow
     - name: Test service URLs
       run: |
         minikube service list
