@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Install and start Minikube
-        uses: actions/setup-minikube@v3
+        uses: medyagh/setup-minikube@master
 
       - name: Set up kubectl for Minikube
         run: kubectl config set-cluster minikube
