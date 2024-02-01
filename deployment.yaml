@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wisecow-deployment
+  name: wisecow
 spec:
-  replicas: 3 
+  replicas: 3  # Adjust as needed
   selector:
     matchLabels:
       app: wisecow
@@ -14,7 +14,14 @@ spec:
     spec:
       containers:
       - name: wisecow
-        image: bababund/wisecow:latest  
+        image: bababund/wisecow  # Your Docker image name
         ports:
         - containerPort: 4499
+        resources:  # Set resource limits/requests if needed
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
 
