@@ -32,7 +32,9 @@ jobs:
         run: kubectl apply -f deployment.yaml -f service.yaml
 
       - name: Verify application health (optional)
-        run: kubectl exec -it wisecow-79f5bb8d4f-c29xb   -- sh -c "curl -I http://localhost:80/ | head"
+        run: |
+          minikube service list
+          minikube service wisecow --url
 
 
 
