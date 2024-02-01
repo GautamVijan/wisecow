@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wisecow
+    name: example
 spec:
-  replicas: 3  # Adjust as needed
-  selector:
-    matchLabels:
-      app: wisecow
-  template:
-    metadata:
-      labels:
-        app: wisecow
-    spec:
-      containers:
-      - name: wisecow
-        image: bababund/wisecow  # Your Docker image name
-        ports:
-        - containerPort: 4499
-        resources:  # Set resource limits/requests if needed
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-
+    selector:
+        matchLabels:
+            app: example
+    replicas: 2
+    template:
+        metadata:
+            labels:
+                app: example
+        spec:
+            containers:
+                - name: example-api
+                  imagePullPolicy: Never
+                  image: local/example:latest
+                  resources:
+                      limits:
+                          cpu: 50m
+                          memory: 100Mi
+                      requests:
+                          cpu: 25m
+                          memory: 10Mi
+                  ports:
+                      - containerPort: 4499
