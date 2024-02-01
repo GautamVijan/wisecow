@@ -21,7 +21,6 @@ jobs:
 
       - name: Install and start Minikube
         uses: actions/setup-minikube@v3
-        with:
 
       - name: Set up kubectl for Minikube
         run: kubectl config set-cluster minikube
