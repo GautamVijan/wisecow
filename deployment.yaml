@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: example
+    namespace: default
 spec:
     selector:
         matchLabels:
@@ -15,12 +16,5 @@ spec:
             containers:
                 - name: example
                   image: local/example:latest
-                  resources:
-                      limits:
-                          cpu: 50m
-                          memory: 100Mi
-                      requests:
-                          cpu: 25m
-                          memory: 10Mi
                   ports:
                       - containerPort: 4499
